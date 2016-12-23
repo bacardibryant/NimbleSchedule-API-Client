@@ -45,7 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AuthInfo.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Shift.cs" />
     <Compile Include="NimbleApiClient.cs" />
     <Compile Include="NimbleApiInterface.cs" />
