@@ -64,7 +64,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\authConfig.json" />
+    <None Include="App_Data\authConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="authConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
