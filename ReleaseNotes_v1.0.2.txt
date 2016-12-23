@@ -1,0 +1,20 @@
+Release Notes
+
+In this release we continue our focus on exposing all of the read-only methods of the api first. Then as planned in the roadmap, we will begin to expose
+the transactional api calls. Key changes in this release are noted below.
+
+- Enclosed NimbleSchedule.Interface calls from the client within using statements so that its Dispose() method is called after the result is returned.
+
+- Converted to C# 6.0 String format
+	- MethodCall.WithDynamicStringParameter($"Some strings contain {variable} data and this syntax is more fluid");
+
+- Implemented the following api calls and unit tests:
+	- Locations/Index
+	- Locations/GetAccessibleLocations
+	- Countries/Index
+	- Departments/Index
+
+- Implemented test class constructor so that authInfo file i/o is only called once. Although in the case of test classes
+  the constructor is called for each test method, so this would be the same as including the call in each method.
+  However, try to stay consisted with good coding practices and keep things DRY yet with out abstracting away too much of the context
+  so that you are still left with somewhat self-documenting code.

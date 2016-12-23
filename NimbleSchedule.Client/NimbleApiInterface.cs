@@ -11,7 +11,7 @@ namespace NimbleSchedule.Client
     internal class NimbleApiInterface : IDisposable
 	{
 		private HttpClient _client = new HttpClient();
-        private AuthInfo _authInfo = new AuthInfo();
+        private AuthInfo _authInfo;
 
         /// <summary>
         /// Constructor accepts authentication information and initializes HTTP Client.
@@ -28,11 +28,61 @@ namespace NimbleSchedule.Client
 			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 		}
 
-		/// <summary>
-		/// Gets the schedules from source.
-		/// </summary>
-		/// <returns>.NET List of schedules for selected time period.</returns>
-		public async Task<List<Shift>> GetShiftsAsync(DateTime startDate, DateTime endDate)
+        /// <summary>
+        /// This method is used to get list of countries. It doesn't require any additional parameters 
+        /// </summary>
+        /// <returns>.NET list collection of country objects</returns>
+        public async Task<List<Country>> GetCountriesAsync()
+        {
+            var countries = new List<Country>();
+
+            // call api async and wait for response.
+            HttpResponseMessage response = await _client.GetAsync($"/api/countries/?CompanyId={_authInfo.CompanyId}&format=JSON&AuthToken={_authInfo.ApiKey}");
+
+            // if an error code this will throw and exception.
+            if (response.IsSuccessStatusCode)
+            {
+                // read json response
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                // parse json into list.
+                countries = JsonConvert.DeserializeObject<List<Country>>(responseBody);
+            }
+
+            return countries;
+
+        }
+
+        /// <summary>
+        /// This method is used to get all the departments in an organization. It doesn't require any additional parameters
+        /// </summary>
+        /// <returns>.NET list collection of department objects</returns>
+        public async Task<List<Department>> GetDepartmentsAsync()
+        {
+            var departments = new List<Department>();
+
+            // call api async and wait for response.
+            HttpResponseMessage response = await _client.GetAsync($"/api/departments/?CompanyId={_authInfo.CompanyId}&format=JSON&AuthToken={_authInfo.ApiKey}");
+
+            // if an error code this will throw and exception.
+            if (response.IsSuccessStatusCode)
+            {
+                // read json response
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                // parse json into list.
+                departments = JsonConvert.DeserializeObject<List<Department>>(responseBody);
+            }
+
+            return departments;
+
+        }
+
+        /// <summary>
+        /// Gets the schedules from source.
+        /// </summary>
+        /// <returns>.NET List of schedules for selected time period.</returns>
+        public async Task<List<Shift>> GetShiftsAsync(DateTime startDate, DateTime endDate)
 		{
 
 			var shifts = new List<Shift>();
@@ -43,7 +93,8 @@ namespace NimbleSchedule.Client
 
 
 			// call api async and wait for response.
-			HttpResponseMessage response = await _client.GetAsync("/api/scheduledshifts/GetShifts?CompanyId=" + _authInfo.CompanyId + "&format=JSON&AuthToken=" + _authInfo.ApiKey + "&startAt=" + shiftStart + "&endAt=" + shiftEnd);
+			HttpResponseMessage response = await _client.GetAsync($"/api/scheduledshifts/GetShifts?CompanyId={_authInfo.CompanyId}&format=JSON&AuthToken={_authInfo.ApiKey}&startAt={shiftStart}&endAt={shiftEnd}");
+
 
 			// if an error code this will throw and exception.
 			if (response.IsSuccessStatusCode)
@@ -68,7 +119,7 @@ namespace NimbleSchedule.Client
 			var employees = new List<Employee>();
 
             // call api async and wait for response.
-            HttpResponseMessage response = await _client.GetAsync("/api/employees?CompanyId=" + _authInfo.CompanyId + "&format=JSON&AuthToken=" + _authInfo.ApiKey);
+            HttpResponseMessage response = await _client.GetAsync($"/api/employees?CompanyId={_authInfo.CompanyId}&format=JSON&AuthToken={_authInfo.ApiKey}");
 
 			// if an error code this will throw and exception.
 			if (response.IsSuccessStatusCode)
@@ -87,13 +138,13 @@ namespace NimbleSchedule.Client
         /// <summary>
         /// This method is used to query all the locations. It doesn't require any additional parameters. 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>.NET list collection of locations</returns>
         public async Task<List<Location>> GetLocationsAsync()
         {
             var locations = new List<Location>();
 
             // call api async and wait for response.
-            HttpResponseMessage response = await _client.GetAsync("/api/locations?CompanyId=" + _authInfo.CompanyId + "&format=JSON&AuthToken=" + _authInfo.ApiKey);
+            HttpResponseMessage response = await _client.GetAsync($"/api/locations?CompanyId={_authInfo.CompanyId}&format=JSON&AuthToken={_authInfo.ApiKey}");
 
             // if an error code this will throw and exception.
             if (response.IsSuccessStatusCode)
@@ -105,9 +156,32 @@ namespace NimbleSchedule.Client
                 locations = JsonConvert.DeserializeObject<List<Location>>(responseBody);
             }
 
-
             return locations;
 
+        }
+
+        /// <summary>
+        /// This method is used to query locations for which user has access to. It doesn't require any additional parameters.
+        /// </summary>
+        /// <returns>.NET List collection of locations.</returns>
+        public async Task<List<Location>> GetAccessibleLocationsAsync()
+        {
+            var locations = new List<Location>();
+
+            // call api async and wait for response
+            HttpResponseMessage response = await _client.GetAsync($"/api/locations/GetAccessibleLocations?username={_authInfo.UserName}&password={_authInfo.Password}");
+
+            // if an error code this will throw and exception.
+            if (response.IsSuccessStatusCode)
+            {
+                // read json response
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                // parse json into list.
+                locations = JsonConvert.DeserializeObject<List<Location>>(responseBody);
+            }
+
+            return locations;
         }
 
         #region IDisposable Support
