@@ -84,6 +84,32 @@ namespace NimbleSchedule.Client
 			return employees;
 		}
 
+        /// <summary>
+        /// This method is used to query all the locations. It doesn't require any additional parameters. 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Location>> GetLocationsAsync()
+        {
+            var locations = new List<Location>();
+
+            // call api async and wait for response.
+            HttpResponseMessage response = await _client.GetAsync("/api/locations?CompanyId=" + _authInfo.CompanyId + "&format=JSON&AuthToken=" + _authInfo.ApiKey);
+
+            // if an error code this will throw and exception.
+            if (response.IsSuccessStatusCode)
+            {
+                // read json response
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                // parse json into list.
+                locations = JsonConvert.DeserializeObject<List<Location>>(responseBody);
+            }
+
+
+            return locations;
+
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

@@ -6,6 +6,9 @@
 *.user
 *.userosscache
 *.sln.docstates
+[aA]pp_Data/
+authConfig.json
+[aA]pp_Data/authConfig.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

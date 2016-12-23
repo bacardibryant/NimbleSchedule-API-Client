@@ -36,5 +36,18 @@ namespace NimbleSchedule.Client.Tests
             // assert that results were returned from the api.
             Assert.IsTrue(employees.Count > 0);
         }
+
+        [TestMethod]
+        public async Task Client_Can_Get_Locations_Async()
+        {
+            // read authentication information from configuration file.
+            var authInfo = JsonConvert.DeserializeObject<AuthInfo>(File.ReadAllText("authConfig.json"));
+
+            // call static async method with parameter.
+            var locations = await NimbleApiClient.GetLocationsAsync(authInfo);
+
+            // assert that results were returned from the api.
+            Assert.IsTrue(locations.Count > 0);
+        }
     }
 }
