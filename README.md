@@ -7,14 +7,14 @@ parse the results into .NET objects and collections for later use in your applic
 
 ###How is it written?
 This project is written using Visual Studio 2017 RC and Visual Studio 2015. Because the .NET native C# and Mono implementations
-differ slightly, the code between this library and our NimbleSchedule-API-MClient (written using Visual Studio Preview for Mac)
+differ slightly, the code between this library and our NimbleSchedule-API-Mono-Client (written using Visual Studio Preview for Mac)
 is somewhat different.
 
 ###How to use it?
 Simply reference the project or assembly in your project.
 <pre><code>
 using Newtonsoft.Json;
-using NimbleSchedule.Client.Models;
+using NimbleSchedule.Client;
 </code></pre>
 
 Instantiate a authentication object with active credentials.
@@ -25,7 +25,7 @@ var authInfo = JsonConvert.DeserializeObject<AuthInfo>(File.ReadAllText("authCon
 
 Call the appropriate static method on the client object.
 <pre><code>
- // call static async method with parameter.
+ // call static async method with authentication details object as parameter.
  var employees = await NimbleApiClient.GetEmployeesAsync(authInfo);
 </code></pre>
 
