@@ -7,7 +7,7 @@ parse the results into .NET objects and collections for later use in your applic
 
 ###How is it written?
 This project is written using Visual Studio 2017 RC and Visual Studio 2015. Because the .NET native C# and Mono implementations
-differ slightly, the code between this library and our NimbleSchedule-API-Mono-Client (written using Visual Studio Preview for Mac)
+differ slightly, the code between this library and our <a href="https://github.com/xnodeoncode/NimbleSchedule-API-Mono-Client" target="_blank">NimbleSchedule-API-Mono-Client</a> (written using Visual Studio Preview for Mac)
 is somewhat different.
 
 ###How to use it?
