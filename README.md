@@ -50,4 +50,4 @@ C# async/await pattern as illustrated in the ASP.NET MVC controller call below.
         }
 </code></pre>
 
-## NOTE: This project is not affiliated with the company Nimble nor its product located at http://www.nimbleschedule.com.
+#### NOTE: This project is not affiliated with the company Nimble nor its product located at http://www.nimbleschedule.com.
